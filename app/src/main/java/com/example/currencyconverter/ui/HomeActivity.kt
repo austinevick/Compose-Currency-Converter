@@ -18,11 +18,14 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
@@ -61,7 +64,12 @@ fun HomeActivity(viewModel: MainViewModel) {
 
 
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(title = { Text(text = "Currency Converter") })
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary),
+            title = { Text(
+                    text = "Currency Converter", color = Color.White,
+                    fontWeight = FontWeight.SemiBold) })
     }) { padding ->
         Column(
 
@@ -73,8 +81,8 @@ fun HomeActivity(viewModel: MainViewModel) {
         ) {
             OutlinedTextField(value = amount.value,
                 onValueChange = { value ->
-                amount.value = DecimalFormatter().cleanup(value)
-            },
+                    amount.value = DecimalFormatter().cleanup(value)
+                },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(
                     textAlign = TextAlign.Center,
@@ -84,7 +92,8 @@ fun HomeActivity(viewModel: MainViewModel) {
                 singleLine = true,
                 visualTransformation = DecimalInputVisualTransformation(DecimalFormatter()),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal),
+                    keyboardType = KeyboardType.Decimal
+                ),
                 label = { Text(text = "Enter amount to convert") })
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -93,11 +102,13 @@ fun HomeActivity(viewModel: MainViewModel) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                CurrencyButton(onClick = {
-                    showDropdown.value = true
-                    selectedIndex.intValue = 0
-                }, flag = baseCurrency.value.flag,
-                    currency = baseCurrency.value.code)
+                CurrencyButton(
+                    onClick = {
+                        showDropdown.value = true
+                        selectedIndex.intValue = 0
+                    }, flag = baseCurrency.value.flag,
+                    currency = baseCurrency.value.code
+                )
 
                 Icon(
                     painter = painterResource(id = R.drawable.compare_arrows),
@@ -109,7 +120,8 @@ fun HomeActivity(viewModel: MainViewModel) {
                         selectedIndex.intValue = 1
                     },
                     flag = targetCurrency.value.flag,
-                    currency = targetCurrency.value.code)
+                    currency = targetCurrency.value.code
+                )
 
             }
             if (showDropdown.value) CurrencyBottomSheet(

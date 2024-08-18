@@ -26,10 +26,6 @@ class MainViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading:StateFlow<Boolean> = _isLoading.asStateFlow()
 
-
-    private val _baseCurrency = MutableStateFlow("USD")
-    val baseCurrency:StateFlow<String> = _baseCurrency.asStateFlow()
-
     suspend fun getCurrencyRate() {
         try {
             val response = currencyApi.getCurrencies()
